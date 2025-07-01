@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "../globals.css";
-import { kanit } from "../fonts";
 import AppHeader from "@/components/app/AppHeader";
 
 export const metadata: Metadata = {
@@ -14,11 +13,9 @@ export default function FrontLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${kanit.variable}`}>
+    <div>
         <AppHeader />
         {children}
-      </body>
-    </html>
+    </div>
   );
 } 
