@@ -49,7 +49,7 @@ const AppHeader = async () => {
             
             {
               session && <div className="flex gap-4">
-                  ยินดีต้อนรับคุณ {session.user.name} email: {session.user.email}
+                  ยินดีต้อนรับคุณ {session.user.name} email: {session.user.email} role: {session.user.role}
               </div>
             }
 

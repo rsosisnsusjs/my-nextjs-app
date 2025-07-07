@@ -28,6 +28,10 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import AppLogOutButton from "./app/AppLogOutButton"
+import { LogInIcon } from "lucide-react"
+import { authClient } from "@/lib/auth-client"
+import { useRouter } from "next/navigation"
 
 export function NavUser({
   user,
@@ -35,10 +39,13 @@ export function NavUser({
   user: {
     name: string
     email: string
-    avatar: string
+    avatar?: string
+    role: string
   }
 }) {
   const { isMobile } = useSidebar()
+  const router = useRouter();
+  const { data: session } = authClient.useSession();
 
   return (
     <SidebarMenu>
@@ -77,7 +84,7 @@ export function NavUser({
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
                   <span className="text-muted-foreground truncate text-xs">
-                    {user.email}
+                    {user.email} role: {user.role}
                   </span>
                 </div>
               </div>
@@ -98,9 +105,17 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <IconLogout />
-              Log out
+            <DropdownMenuItem onClick={async () => {
+              await authClient.signOut({
+                fetchOptions: {
+                  onSuccess: () => {
+                    router.replace("/login");
+                  }
+                }
+              })
+            }}>
+              <LogInIcon />
+              Logout
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

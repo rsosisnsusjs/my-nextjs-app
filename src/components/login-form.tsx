@@ -23,16 +23,23 @@ export function LoginForm({
 
   const handleLogin = async () => {
     await authClient.signIn.email({
-                email: "test@test.com",
+                email: "admin@admin.com",
                 password: "password",
-                callbackURL: "/",
+                // callbackURL: "/",
             }, {
                 onRequest: (ctx) => {
                     console.log("loading:", ctx.body); //show loading
                 },
-                onSuccess: (ctx) => {
+                onSuccess: async (ctx) => {
                     console.log("success:", ctx.data)//redirect to the dashboard or sign in page
-                    // router.replace("/login");
+                    // get session (client side)
+                    const { data: session } = await authClient.getSession();
+                    if (session?.user.role === "user") {
+                      router.replace("/");
+                    } else {
+                      //admin
+                      router.replace("/dashboard");
+                    }
                 },
                 onError: (ctx) => {
                     // display the error message

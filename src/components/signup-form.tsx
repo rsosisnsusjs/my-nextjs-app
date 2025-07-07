@@ -12,9 +12,9 @@ const SignUpForm = () => {
 
     const handleSignUp = async () => {
         await authClient.signUp.email({
-            email: "test@test.com",
+            email: "admin@admin.com",
             password: "password",
-            name: "skibidi"
+            name: "admin"
         }, {
             onRequest: (ctx) => {
                 console.log("loading:", ctx.body); //show loading
